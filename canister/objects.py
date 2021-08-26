@@ -71,3 +71,30 @@ class CanisterPackage(object):
         """ Returns the package's repository URL. """
         # Return the URI from the repository response
         return self.__repo.get("uri")
+
+class CanisterRepository(object):
+    """ Class representation of a repository check.
+
+    This specific class handles the contents of a repo check
+    request from Canister, using the 'check/repo' endpoint. """
+    def __init__(self, data: Dict[str, str]):
+        # Get the URL of the repository
+        self.url: str = data.get("repositoryURI")
+
+        # Get the status of the repository
+        # Tells users whether a repo is safe or not
+        self.__status: str = data.get("status")
+
+    def __repr__(self) -> str:
+        """ Visual representation of the object. """
+        return f"CanisterRepository('{self.url}', status='{self.status}')"
+
+    @property
+    def status(self) -> str:
+        """ Return the status of the repository.
+
+        This property tells users whether the repository
+        is marked as safe or unsafe. """
+        # Get the status from the response
+        # then, capitalize the returned status
+        return self.__status.capitalize()
