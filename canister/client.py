@@ -11,7 +11,10 @@ from typing import (
     Optional
 )
 
-from .objects import CanisterAPIResponse
+from .objects import (
+    CanisterPackage,
+    CanisterAPIResponse
+)
 
 class Client:
     """ Class representation of the Canister API client.
@@ -69,6 +72,31 @@ class Client:
         # Return the response as a CanisterResponse object
         # This makes it easier to access requested information
         return CanisterAPIResponse(**response)
+
+    async def get_packages(self, query: str) -> List[CanisterPackage]:
+        """ Obtains a list of packages based on given query.
+
+        This function uses the 'packages' endpoint in order
+        to return a list of packages available in Canister
+        based on the given query. """
+        # Create an empty list
+        # Used for converted package data
+        package_list: List[CanisterPackage] = []
+
+        # Search Canister for packages that match the given query
+        resp = await self.__search_canister("packages", query)
+
+        # Convert each response result into a CanisterPackage object
+        for package in resp.data:
+            # Convert package data
+            # This makes it easier to refer to it
+            new_package = CanisterPackage(package)
+
+            # Append the converted data to the list
+            package_list.append(new_package)
+
+        # Return the list of converted packages
+        return package_list
 
     async def close(self) -> None:
         """ Closes the aiohttp session used to make requests. """
