@@ -13,7 +13,8 @@ from typing import (
 
 from .objects import (
     CanisterPackage,
-    CanisterAPIResponse
+    CanisterAPIResponse,
+    CanisterRepository
 )
 
 class Client:
@@ -46,7 +47,8 @@ class Client:
         # Create a list of supported API endpoints
         self.__endpoints: Dict[str, str] = {
             # More endpoints will be added here later
-            "packages": "packages/search"
+            "packages": "packages/search",
+            "check/repo": "repositories/check"
         }
 
     async def __search_canister(
@@ -97,6 +99,19 @@ class Client:
 
         # Return the list of converted packages
         return package_list
+
+    async def check_repository(self, query: str) -> CanisterRepository:
+        """ Checks if the given query is an unsafe repo.
+
+        This is based on a list that Canister internally uses,
+        which contains repositories that host malware or are
+        otherwise considered as piracy. """
+        # Check if the given query is an unsafe repo
+        resp = await self.__search_canister("check/repo", query)
+
+        # Get the returned data of the request
+        # Wrap the response in a CanisterRepository object
+        return CanisterRepository(resp.data)
 
     async def close(self) -> None:
         """ Closes the aiohttp session used to make requests. """
