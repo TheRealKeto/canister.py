@@ -37,7 +37,7 @@ class Client:
             # Add user specified search fields
             "searchFields": kwargs.pop("search_fields", []),
             # Add user specified response fields
-            "response_fields": kwargs.pop("resp_fields", [])
+            "responseFields": kwargs.pop("resp_fields", [])
         }
 
         # Specify the given aiohttp session globally
