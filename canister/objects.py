@@ -6,6 +6,7 @@ from typing import (
     Dict,
     List,
     Union,
+    Optional,
     NamedTuple
 )
 
@@ -40,6 +41,21 @@ class CanisterPackage(object):
         # Get the description of the package
         self.description: str = data.get("description")
 
+        # Get the section of the package
+        self.section: str = data.get("section")
+
+        # Get the author and maintainer of the package
+        self.author: str = data.get("author")
+        self.maintainer: str = data.get("maintainer")
+
+        # Get the URLs of package depictions
+        self.__normal_depiction: str = data.get("depiction")
+        self.__native_depiction: str = data.get("nativeDepiction")
+
+        # Get the URL to the package icon image
+        # In many cases, packages may not have this
+        self.icon_url: str = data.get("packageIcon")
+
         # Get the version of the package
         # Only returns the latest version available
         self.version: str = data.get("latestVersion")
@@ -51,6 +67,22 @@ class CanisterPackage(object):
     def __repr__(self) -> str:
         """ Visual represenation of the object. """
         return f"CanisterPackage('{self.name}', '{self.description}')"
+
+    def depiction(self, depiction_type: Optional[str] = None) -> str:
+        """ Returns the specified depiction type.
+
+        The depiction type can either be the native depiction,
+        which is used by Sileo, or the normal depiction, used
+        by other packages managers. """
+        # Use a case-switch thingy to 'chose'
+        # It'll default to the normal depiction
+        depictions: Dict[str, str] = {
+            "normal": self.__normal_depiction,
+            "native": self.__native_depiction
+        }
+
+        # Chose the specified depiction type
+        return depictions.get(depiction_type, depictions.get("normal"))
 
     @property
     def name(self) -> str:
