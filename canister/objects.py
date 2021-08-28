@@ -113,7 +113,7 @@ class CanisterPackage(object):
         return self.package
 
     @property
-    def url(self) -> str:
+    def repo_url(self) -> str:
         """ Returns the package's repository URL. """
         # Return the URI from the repository response
         return self.__repo.get("uri")
