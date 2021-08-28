@@ -45,7 +45,7 @@ class CanisterPackage(object):
         self.section: str = data.get("section")
 
         # Get the author and maintainer of the package
-        self.author: str = data.get("author")
+        self.__author: Optional[str] = data.get("author")
         self.maintainer: str = data.get("maintainer")
 
         # Get the URLs of package depictions
@@ -83,6 +83,20 @@ class CanisterPackage(object):
 
         # Chose the specified depiction type
         return depictions.get(depiction_type, depictions.get("normal"))
+
+    @property
+    def author(self) -> str:
+        """ Returns the author of the package.
+
+        As a fallback, this property will return the
+        package's maintainer if there's no package available. """
+        # Check if there's an author value
+        if self.__author is not None:
+            # Return the accurate package author
+            return self.__author
+
+        # All other instances, return the package maintanier
+        return self.maintainer
 
     @property
     def name(self) -> str:
