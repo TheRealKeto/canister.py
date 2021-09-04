@@ -174,25 +174,6 @@ class Client:
         # Wrap the returned metadata in a CanisterRepository object
         return CanisterRepository(resp.data)
 
-    def __search_canister(
-        self, endpoint: str, query: str
-    ) -> CanisterAPIResponse:
-        """ Make a request to the Canister API.
-
-        The function is both sync and async, meaning that it works
-        with pretty much any ancient requests module version as well
-        as with aiohttp.
-
-        The request is made to a specific endpoint, and results
-        will match with the given query. """
-        # Use aiohttp to interact with the Canister API first
-        if self.__async:
-            # Make the request and return its contents asynchronously
-            return self.__async_search_canister(endpoint, query)
-
-        # In other instances, use requests to interact with the API
-        return self.__sync_search_canister(endpoint, query)
-
     def get_packages(self, query: str) -> List[CanisterPackage]:
         """ Obtains a list of packages based on given query.
 
