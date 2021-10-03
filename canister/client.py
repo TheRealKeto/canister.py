@@ -117,6 +117,6 @@ class CanisterClient:
         """ Closes the aiohttp session used to make requests. """
         # Check if there's a running aiohttp session
         # TODO: Return a proper error if this fails at some point
-        if self.__session and isinstance(self.__session, aiohttp.ClientSession):
+        if isinstance(self.__session, aiohttp.ClientSession):
             # Close the running aiohttp session
             await self.__session.close()
