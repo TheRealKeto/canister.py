@@ -2,4 +2,4 @@
 # Script to intialize the Canister package
 
 # Imports
-from .client import Client
+from .client import CanisterClient as Client
