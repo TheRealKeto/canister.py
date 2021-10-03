@@ -17,7 +17,7 @@ from .objects import (
     CanisterRepository
 )
 
-class Client:
+class CanisterClient:
     """ Class representation of the Canister API client.
 
     This class will interact with the Canister API, and allow
