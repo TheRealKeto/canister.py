@@ -81,24 +81,13 @@ class CanisterClient:
         This function uses the 'packages' endpoint in order
         to return a list of packages available in Canister
         based on the given query. """
-        # Create an empty list
-        # Used for converted package data
-        package_list: List[CanisterPackage] = []
 
         # Search Canister for packages that match the given query
         resp = await self.__search_canister("packages", query)
 
         # Convert each response result into a CanisterPackage object
-        for package in resp.data:
-            # Convert package data
-            # This makes it easier to refer to it
-            new_package = CanisterPackage(package)
-
-            # Append the converted data to the list
-            package_list.append(new_package)
-
-        # Return the list of converted packages
-        return package_list
+        # then, append the Package object and return a list of packages
+        return [CanisterPackage(package) for package in resp.data]
 
     async def check_repository(self, query: str) -> CanisterRepository:
         """ Checks if the given query is an unsafe repo.
