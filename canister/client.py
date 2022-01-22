@@ -29,7 +29,7 @@ class CanisterClient:
         **kwargs: Any
     ):
         # Set the base endpoint of the Canister API
-        self.__base = "https://api.canister.me/v1/community"
+        self.__base: str = "https://api.canister.me/v1/community"
 
         # Setup specific request parameters
         # These are used when interacting with the API
