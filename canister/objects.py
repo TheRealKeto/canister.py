@@ -64,18 +64,18 @@ class CanisterPackage(object):
         self.__repo: Dict[str, str] = data.get("repository")
 
     def __repr__(self) -> str:
-        """ Visual represenation of the object. """
+        """ Visual representation of the object. """
         return f"CanisterPackage('{self.name}', '{self.description}')"
 
     @property
     def depiction(self) -> Optional[str]:
         """ Returns the package's depiction.
 
-        This property defaults to returing the native depiction
+        This property defaults to returning the native depiction
         of the package, which is used by Sileo, but it will
         try to avoid None by attempting to return the raw depiction.
 
-        Unfortunetly, some packages simply don't have any depictions,
+        Unfortunately, some packages simply don't have any depictions,
         hence this can still return None. """
         # Check for the package's native depiction
         if self.__sileodepiction is not None:

@@ -1,13 +1,13 @@
-# `canister.py`
+# canister.py
 
-An `async` wrapper for the Canister API, written in Python. **There are
-no front-facing docs for this and it's not on PyPI.**
+An `async` wrapper for the Canister API, written in Python. **There
+are no front-facing docs for this, and it's not on PyPI.**
 
 ## History
 
 Seeing as there's no API wrapper for Canister (since it's still a work
 in progress) written in Python, I decided to make this for that
-occassion.
+occasion.
 
 Its main use (for me, at least) was to be used alongside a Discord bot
 to interact with Canister. The wrapper itself supports a limited amount
@@ -23,7 +23,9 @@ example below should provide a general idea on how to get started.
 import asyncio
 import canister
 
-async def main(package_name: str):
+from typing import List
+
+async def main(package_name: str) -> List[canister.CanisterPackage]:
     """ Search Canister for the given package """
     # Create an instance of the Canister client
     client = canister.Client()
