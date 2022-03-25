@@ -184,5 +184,9 @@ class CanisterRepository(object):
     
     @property
     def aliases(self) -> Optional[str]:
-        """ Returns all the aliases that the repository is known by. """
+        """ Returns all the aliases that the repository is known by.
+
+        In most instances, this property will return None, as most
+        repositories do not have aliases. If aliases are found, they
+        are returned in joined string. """
         return ", ".join(self.__aliases) or None
