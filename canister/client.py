@@ -25,6 +25,7 @@ class CanisterClient:
     def __init__(
         self,
         *,
+        user_agent: str,
         session: Optional[aiohttp.ClientSession] = None,
         **kwargs: Any
     ):
@@ -39,6 +40,10 @@ class CanisterClient:
             # Add user specified response fields
             "responseFields": kwargs.pop("resp_fields", [])
         }
+
+        # Specify a (required) user agent for requets
+        # This is requirement by the Canister API, so...
+        self.__user_agent: str = user_agent
 
         # Specify the given aiohttp session globally
         # Create one session is an aiohttp session isn't given
@@ -63,10 +68,18 @@ class CanisterClient:
         request_url = f"{self.__base}/{self.__endpoints.get(endpoint)}"
 
         # Update the API params with the given query
-        (params := self.__params).update({"query": query})
+        (request_params := self.__params).update({"query": query})
+
+        # Add parameters and headers into a dict, for the request
+        request_args: Dict[str, Any] = {
+            # Also, add API URL being used for the request
+            "url": request_url,
+            "params": request_params,
+            "headers": {"User-Agent": self.__user_agent}
+        }
 
         # Actually make a request to the Canister API
-        async with self.__session.get(request_url, params=params) as resp:
+        async with self.__session.get(**request_args) as resp:
             # Get the response of the request
             # TODO: Add error handling to this function
             response = await resp.json()
