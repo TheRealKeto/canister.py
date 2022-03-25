@@ -14,7 +14,8 @@ from typing import (
 from .objects import (
     CanisterPackage,
     CanisterAPIResponse,
-    CanisterRepository
+    CanisterRepository,
+    CanisterRepoStatus,
 )
 
 class CanisterClient:
@@ -53,7 +54,8 @@ class CanisterClient:
         self.__endpoints: Dict[str, str] = {
             # More endpoints will be added here later
             "packages": "packages/search",
-            "check/repo": "repositories/check"
+            "check/repo": "repositories/check",
+            "repositories": "repositories/search"
         }
 
     async def __search_canister(
@@ -102,7 +104,21 @@ class CanisterClient:
         # then, append the Package object and return a list of packages
         return [CanisterPackage(package) for package in resp.data]
 
-    async def check_repository(self, query: str) -> CanisterRepository:
+    async def get_repositories(self, query: str) -> List[CanisterRepository]:
+       """ Obtains a list of repositories based on given query.
+
+       This function uses the 'search/repos' endpoint in order
+       to return a list of repos available in Canister that
+       matched the given query. """
+
+       # Search Canister for repositories that match the given query
+       resp = await self.__search_canister("repositories", query)
+
+       # Convert each response result into a CanisterRepo object
+       # then, append the Repo object and return a list of repos
+       return [CanisterRepository(repo) for repo in resp.data]
+
+    async def check_repository(self, query: str) -> CanisterRepoStatus:
         """ Checks if the given query is an unsafe repo.
 
         This is based on a list that Canister internally uses,
@@ -113,7 +129,7 @@ class CanisterClient:
 
         # Get the returned data of the request
         # Wrap the response in a CanisterRepository object
-        return CanisterRepository(resp.data)
+        return CanisterRepositoryStatus(resp.data)
 
     async def close(self) -> None:
         """ Closes the aiohttp session used to make requests. """

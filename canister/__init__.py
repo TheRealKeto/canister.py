@@ -4,6 +4,7 @@
 # Imports
 from .objects import (
     CanisterPackage,
-    CanisterRepository
+    CanisterRepository,
+    CanisterRepoStatus
 )
 from .client import CanisterClient as Client
