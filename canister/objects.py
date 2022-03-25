@@ -120,7 +120,7 @@ class CanisterPackage(object):
         # Return the URI from the repository response
         return self.__repo.get("uri")
 
-class CanisterRepository(object):
+class CanisterRepoStatus(object):
     """ Class representation of a repository check.
 
     This specific class handles the contents of a repo check
@@ -135,7 +135,7 @@ class CanisterRepository(object):
 
     def __repr__(self) -> str:
         """ Visual representation of the object. """
-        return f"CanisterRepository('{self.url}', status='{self.status}')"
+        return f"CanisterRepoStatus('{self.url}', status='{self.status}')"
 
     @property
     def status(self) -> str:
@@ -146,3 +146,43 @@ class CanisterRepository(object):
         # Get the status from the response
         # then, capitalize the returned status
         return self.__status.capitalize()
+
+class CanisterRepository(object):
+    """ Independent class representation of a package object.
+
+    This class takes data from a CanisterAPIResponse object,
+    making it easier to refer to specific fields of repositories. """
+    def __init__(self, data: Dict[str, str]):
+        # Get the of the repository
+        self.name: str = data.get("name")
+
+        # Get the name of the URI
+        # This property has an alias
+        self.uri: str = data.get("uri")
+
+        # Get the version of the repository
+        self.version: str = data.get("version")
+        
+        # Get the slug of the repository
+        self.slug: str = data.get("slug")
+
+        # Get the list of aliases
+        # These are other names the repo is known by
+        self.__aliases: List[str] = data.get("aliases")
+    
+    def __repr__(self) -> str:
+        """ Visual representation of the object. """
+        return f"CanisterRepository('{self.name}', '{self.url}')"
+    
+    @property
+    def url(self) -> str:
+        """ Returns the URL of the repository.
+        
+        This property also functions as an alias to get the URI
+        of the repository. You can use either property. """
+        return self.uri
+    
+    @property
+    def aliases(self) -> str:
+        """ Returns all the aliases that the repository is known by. """
+        return ", ".join(self.__aliases)
