@@ -168,7 +168,7 @@ class CanisterRepository(object):
 
         # Get the list of aliases
         # These are other names the repo is known by
-        self.__aliases: List[str] = data.get("aliases")
+        self.__aliases: Optional[List[str]] = data.get("aliases")
     
     def __repr__(self) -> str:
         """ Visual representation of the object. """
@@ -183,6 +183,6 @@ class CanisterRepository(object):
         return self.uri
     
     @property
-    def aliases(self) -> str:
+    def aliases(self) -> Optional[str]:
         """ Returns all the aliases that the repository is known by. """
-        return ", ".join(self.__aliases)
+        return ", ".join(self.__aliases) or None
