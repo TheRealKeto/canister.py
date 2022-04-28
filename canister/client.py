@@ -129,7 +129,7 @@ class CanisterClient:
 
         # Get the returned data of the request
         # Wrap the response in a CanisterRepository object
-        return CanisterRepositoryStatus(resp.data)
+        return CanisterRepoStatus(resp.data)
 
     async def close(self) -> None:
         """ Closes the aiohttp session used to make requests. """
