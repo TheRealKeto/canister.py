@@ -63,6 +63,9 @@ class CanisterPackage(object):
         # Will be used to get the URL of the repo
         self.__repo: Dict[str, str] = data.get("repository")
 
+        # Get the tint color of the package icon
+        self.color: Optional[str] = data.get("tintColor")
+
     def __repr__(self) -> str:
         """ Visual representation of the object. """
         return f"CanisterPackage('{self.name}', '{self.description}')"
