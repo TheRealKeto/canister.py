@@ -105,18 +105,18 @@ class CanisterClient:
         return [CanisterPackage(package) for package in resp.data]
 
     async def get_repositories(self, query: str) -> List[CanisterRepository]:
-       """ Obtains a list of repositories based on given query.
+        """ Obtains a list of repositories based on given query.
 
-       This function uses the 'search/repos' endpoint in order
-       to return a list of repos available in Canister that
-       matched the given query. """
+        This function uses the 'search/repos' endpoint in order
+        to return a list of repos available in Canister that
+        matched the given query. """
 
-       # Search Canister for repositories that match the given query
-       resp = await self.__search_canister("repositories", query)
+        # Search Canister for repositories that match the given query
+        resp = await self.__search_canister("repositories", query)
 
-       # Convert each response result into a CanisterRepo object
-       # then, append the Repo object and return a list of repos
-       return [CanisterRepository(repo) for repo in resp.data]
+        # Convert each response result into a CanisterRepo object
+        # then, append the Repo object and return a list of repos
+        return [CanisterRepository(repo) for repo in resp.data]
 
     async def check_repository(self, query: str) -> CanisterRepoStatus:
         """ Checks if the given query is an unsafe repo.
