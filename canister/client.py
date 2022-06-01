@@ -8,6 +8,7 @@ from typing import (
     Any,
     Dict,
     List,
+    Union,
     Optional
 )
 
@@ -35,11 +36,11 @@ class CanisterClient:
 
         # Setup specific request parameters
         # These are used when interacting with the API
-        self.__params: Dict[str, List[str]] = {
+        self.__params: Dict[str, Union[str, List[str]]] = {
             # Add user specified search fields
             "searchFields": kwargs.pop("search_fields", []),
             # Add user specified response fields
-            "responseFields": kwargs.pop("resp_fields", [])
+            "responseFields": kwargs.pop("resp_fields", "*")
         }
 
         # Specify a (required) user agent for requets
