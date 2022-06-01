@@ -34,7 +34,7 @@ async def main(package_name: str) -> List[canister.CanisterPackage]:
     # The search term can be any string, passed in the function
 
     # This will return a list of packages that match the query
-    package = await client.get_packages(package_name)
+    packages = await client.get_packages(package_name)
 
     # This is optional in most cases, but you should
     # close the running instance of the Canister client
@@ -42,7 +42,7 @@ async def main(package_name: str) -> List[canister.CanisterPackage]:
 
     # Print general information about the retrieved package
     # The returned object has several attributes, as well
-    print(package)
+    [print(package) for package in packages]
 
 # Setup async related stuff and run the function
 # The function recieves "siguza-utils" as a query term
