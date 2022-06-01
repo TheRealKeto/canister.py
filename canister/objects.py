@@ -165,26 +165,26 @@ class CanisterRepository(object):
 
         # Get the version of the repository
         self.version: str = data.get("version")
-        
+
         # Get the slug of the repository
         self.slug: str = data.get("slug")
 
         # Get the list of aliases
         # These are other names the repo is known by
         self.__aliases: Optional[List[str]] = data.get("aliases")
-    
+
     def __repr__(self) -> str:
         """ Visual representation of the object. """
         return f"CanisterRepository('{self.name}', '{self.url}')"
-    
+
     @property
     def url(self) -> str:
         """ Returns the URL of the repository.
-        
+
         This property also functions as an alias to get the URI
         of the repository. You can use either property. """
         return self.uri
-    
+
     @property
     def aliases(self) -> Optional[str]:
         """ Returns all the aliases that the repository is known by.
