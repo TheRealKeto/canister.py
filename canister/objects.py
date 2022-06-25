@@ -5,11 +5,13 @@
 from typing import (
     Dict,
     List,
-    Optional,
-    NamedTuple
+    Optional
 )
 
-class CanisterAPIResponse(NamedTuple):
+from dataclasses import field, dataclass
+
+@dataclass(frozen=True)
+class CanisterAPIResponse(object):
     """ Namedtuple representation of a request response.
 
     This class is the raw representation of a returned response
@@ -20,9 +22,13 @@ class CanisterAPIResponse(NamedTuple):
     # Date of when the request was made
     date: str
 
+    # Message returned by the request
+    # You'll only get one if the request fails
+    message: Optional[str] = field(default_factory=str)
+
     # Data response of the API request
     # Raw data, handled by specific class objects
-    data: List[Dict[str, str]]
+    data: List[Optional[Dict[str, str]]] = field(default_factory=list)
 
 class CanisterPackage(object):
     """ Independent class representation of a package object.
