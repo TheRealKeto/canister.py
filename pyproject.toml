@@ -1,19 +1,20 @@
 [tool.poetry]
 name = "canister"
-version = "1.0"
-description = "Async wrapper for the Canister API"
+version = "1.0.0"
+description = "An async wrapper for the Canister API"
 authors = ["TheRealKeto <therealketo@gmail.com>"]
 license = "BSD-3-Clause"
 readme = "README.md"
-packages = [{include = "canister"}]
+repository = "https://github.com/TheRealKeto/canister.py"
+packages = [{ include = "canister" }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
 aiohttp = "^3.8.1"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 flake8 = "^4.0.1"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.1.0"]
 build-backend = "poetry.core.masonry.api"
