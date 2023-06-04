@@ -47,16 +47,26 @@ class CanisterClient:
         http_info = CanisterComponents(version, *http_agent)
         return http_info.user_agent
 
-    async def __canister_request(
+    async def __search_canister(
         self,
         endpoint: str,
-        params: Dict[str, Any]
+        query: Optional[str] = None,
+        *,
+        params: Optional[Dict[str, Any]] = None
     ) -> CanisterAPIResponse:
-        request_endpoint = self.__endpoints.get(endpoint)
+        api_endpoint = self.__endpoints.get(endpoint)
+        request_url = f"{self.__base}/{api_endpoint}"
+
+        if query:
+            request_url += query
+
         request_args: Dict[str, Any] = {
-            "url": f"{self.__base}/{request_endpoint}",
+            "url": request_url,
             "params": params,
-            "headers": {"User-Agent": self.user_agent}
+            "headers": {
+                "User-Agent": self.user_agent,
+                "content-type": "application/json"
+            }
         }
 
         async with self.__session.get(**request_args) as resp:
@@ -71,11 +81,13 @@ class CanisterClient:
         limit: Optional[int] = 250,
         page: Optional[int] = 1
     ) -> List[CanisterPackage]:
-        resp = await self.__canister_request("package_search", {
-            "q": query,
-            "limit": limit,
-            "page": page
-        })
+        resp = await self.__search_canister(
+            "package_search", params={
+                "q": query,
+                "limit": limit,
+                "page": page
+            }
+        )
         return [
             CanisterPackage(**package)
             for package in resp.data
