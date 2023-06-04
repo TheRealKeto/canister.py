@@ -9,10 +9,12 @@ from importlib import metadata
 from typing import (
     Any,
     Dict,
+    List,
     Optional,
 )
 
 from .objects import (
+    CanisterPackage,
     CanisterAPIResponse,
     CanisterComponents
 )
@@ -45,7 +47,7 @@ class CanisterClient:
         http_info = CanisterComponents(version, *http_agent)
         return http_info.user_agent
 
-    async def canister_request(
+    async def __canister_request(
         self,
         endpoint: str,
         params: Dict[str, Any]
@@ -61,6 +63,23 @@ class CanisterClient:
             response = await resp.json()
 
         return CanisterAPIResponse(**response)
+
+    async def get_packages(
+        self,
+        query: str,
+        *,
+        limit: Optional[int] = 1,
+        page: Optional[int] = 1
+    ) -> List[CanisterPackage]:
+        resp = await self.__canister_request("package_search", {
+            "q": query,
+            "limit": limit,
+            "page": page
+        })
+        return [
+            CanisterPackage(**package)
+            for package in resp.data
+        ]
 
     async def close(self) -> None:
         if isinstance(self.__session, aiohttp.ClientSession):
