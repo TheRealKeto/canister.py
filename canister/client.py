@@ -68,7 +68,7 @@ class CanisterClient:
         self,
         query: str,
         *,
-        limit: Optional[int] = 1,
+        limit: Optional[int] = 250,
         page: Optional[int] = 1
     ) -> List[CanisterPackage]:
         resp = await self.__canister_request("package_search", {
