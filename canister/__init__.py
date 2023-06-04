@@ -1,10 +1,10 @@
-# canister.py (__init__.py)
-# Script to intialize the Canister package
+#
+# Copyright (c) 2023 TheRealKeto
+# SPDX-License-Identifier: BSD-3-Clause
+#
 
-# Imports
-from .objects import (
-    CanisterPackage,
-    CanisterRepository,
-    CanisterRepoStatus
-)
 from .client import CanisterClient as Client
+
+__all__ = [
+    "Client"
+]
