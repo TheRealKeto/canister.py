@@ -73,7 +73,7 @@ class CanisterPackage:
     repositorySlug: str = field(repr=False)
     repository_slug: str = field(init=False)
     repositoryTier: int = field(repr=False)
-    repository_tier: str = field(init=False)
+    repository_tier: int = field(init=False)
     section: str
     sha256: int
     sileoDepiction: Optional[str] = field(repr=False)
@@ -86,7 +86,7 @@ class CanisterPackage:
     version: str
 
     # Let's deal with camelCase bullshit
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.installed_size = self.installedSize
         self.is_current = self.isCurrent
         self.is_pruned = self.isPruned

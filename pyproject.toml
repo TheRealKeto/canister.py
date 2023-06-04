@@ -30,6 +30,7 @@ select = [
 line-length = 65
 show-source = true
 target-version = "py38"
+per-file-ignores = { "objects.py" = ["N815"] }
 
 [build-system]
 requires = ["poetry-core>=1.1.0"]
