@@ -33,6 +33,7 @@ class CanisterClient:
 
         # List of shorthand, supported endpoints
         self.__endpoints: Dict[str, str] = {
+            "package": "jailbreak/package/",
             "package_search": "jailbreak/package/search"
         }
 
@@ -92,6 +93,10 @@ class CanisterClient:
             CanisterPackage(**package)
             for package in resp.data
         ]
+
+    async def get_package(self, query: str) -> CanisterPackage:
+        resp = await self.__search_canister("package", query)
+        return CanisterPackage(**resp.data[0])
 
     async def close(self) -> None:
         if isinstance(self.__session, aiohttp.ClientSession):
