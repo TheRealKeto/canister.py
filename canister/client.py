@@ -35,7 +35,7 @@ class CanisterClient:
         }
 
     @property
-    def user_agent(self):
+    def user_agent(self) -> str:
         http_agent = self.__http_agent.split()
         try:
             version = metadata.version(__package__)

@@ -20,7 +20,7 @@ class CanisterComponents:
     aiohttp_version: str
 
     @property
-    def user_agent(self):
+    def user_agent(self) -> str:
         return ", ".join((
             f"canister/{self.canister_version}",
             self.python_version,
