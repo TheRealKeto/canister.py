@@ -28,13 +28,12 @@ class CanisterClient:
     ):
         self.__base: str = "https://api.canister.me/v2"
         self.__http_agent = aiohttp.http.SERVER_SOFTWARE
-
         self.__session = session or aiohttp.ClientSession()
 
         # List of shorthand, supported endpoints
         self.__endpoints: Dict[str, str] = {
             "package": "jailbreak/package/",
-            "package_search": "jailbreak/package/search"
+            "search": "jailbreak/package/search"
         }
 
     @property
@@ -75,19 +74,20 @@ class CanisterClient:
 
         return CanisterAPIResponse(**response)
 
-    async def get_packages(
+    async def search_packages(
         self,
         query: str,
         *,
         limit: Optional[int] = 250,
         page: Optional[int] = 1
     ) -> List[CanisterPackage]:
+        params = {
+            "q": query,
+            "limit": limit,
+            "page": page
+        }
         resp = await self.__search_canister(
-            "package_search", params={
-                "q": query,
-                "limit": limit,
-                "page": page
-            }
+            "search", params=params
         )
         return [
             CanisterPackage(**package)
