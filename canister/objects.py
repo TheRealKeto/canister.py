@@ -29,7 +29,7 @@ class CanisterComponents:
 
 
 @dataclass(frozen=True)
-class CanisterAPIResponse:
+class APIResponse:
     status: str
     date: str
     refs: Optional[Dict[str, str]] = field(default=None)
@@ -40,15 +40,8 @@ class CanisterAPIResponse:
     error: Optional[str] = field(default=None)
 
 
-@dataclass(frozen=True)
-class CanisterAPIErrResponse:
-    status: str
-    date: str
-    error: str
-
-
 @dataclass()
-class CanisterPackage:
+class Package:
     architecture: str
     author: str
     depiction: Optional[str]

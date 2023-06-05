@@ -14,8 +14,8 @@ from typing import (
 )
 
 from .objects import (
-    CanisterPackage,
-    CanisterAPIResponse,
+    Package,
+    APIResponse,
     CanisterComponents
 )
 
@@ -26,12 +26,12 @@ class CanisterClient:
         *,
         session: Optional[aiohttp.ClientSession] = None
     ):
-        self.__base: str = "https://api.canister.me/v2"
+        self.__base = "https://api.canister.me/v2"
         self.__http_agent = aiohttp.http.SERVER_SOFTWARE
         self.__session = session or aiohttp.ClientSession()
 
         # List of shorthand, supported endpoints
-        self.__endpoints: Dict[str, str] = {
+        self.__endpoints = {
             "package": "jailbreak/package/",
             "search": "jailbreak/package/search"
         }
@@ -53,7 +53,7 @@ class CanisterClient:
         query: Optional[str] = None,
         *,
         params: Optional[Dict[str, Any]] = None
-    ) -> CanisterAPIResponse:
+    ) -> APIResponse:
         api_endpoint = self.__endpoints.get(endpoint)
         request_url = f"{self.__base}/{api_endpoint}"
 
@@ -72,7 +72,7 @@ class CanisterClient:
         async with self.__session.get(**request_args) as resp:
             response = await resp.json()
 
-        return CanisterAPIResponse(**response)
+        return APIResponse(**response)
 
     async def search_packages(
         self,
@@ -80,7 +80,7 @@ class CanisterClient:
         *,
         limit: Optional[int] = 250,
         page: Optional[int] = 1
-    ) -> List[CanisterPackage]:
+    ) -> List[Package]:
         params = {
             "q": query,
             "limit": limit,
@@ -89,14 +89,11 @@ class CanisterClient:
         resp = await self.__search_canister(
             "search", params=params
         )
-        return [
-            CanisterPackage(**package)
-            for package in resp.data
-        ]
+        return [Package(**package) for package in resp.data]
 
-    async def get_package(self, query: str) -> CanisterPackage:
+    async def get_package(self, query: str) -> Package:
         resp = await self.__search_canister("package", query)
-        return CanisterPackage(**resp.data[0])
+        return Package(**resp.data[0])
 
     async def close(self) -> None:
         if isinstance(self.__session, aiohttp.ClientSession):
