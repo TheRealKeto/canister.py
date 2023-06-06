@@ -10,21 +10,24 @@ from typing import (
     Optional
 )
 
+from importlib import metadata
 from dataclasses import field, dataclass
 
 
 @dataclass(frozen=True)
 class CanisterComponents:
-    canister_version: str
-    python_version: str
-    aiohttp_version: str
+    aiohttp_info: str
 
     @property
     def user_agent(self) -> str:
+        try:
+            version = metadata.version(__package__)
+        except metadata.PackageNotFoundError:
+            version = "0.0.0-unknown"
+
         return ", ".join((
-            f"canister.py/{self.canister_version}",
-            self.python_version,
-            self.aiohttp_version
+            f"canister.py/{version}",
+            *self.aiohttp_info.split()
         ))
 
 

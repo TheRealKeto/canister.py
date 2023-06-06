@@ -5,7 +5,6 @@
 
 import aiohttp
 
-from importlib import metadata
 from typing import (
     Any,
     Dict,
@@ -35,17 +34,7 @@ class CanisterClient:
             "package": "jailbreak/package/",
             "search": "jailbreak/package/search"
         }
-
-    @property
-    def user_agent(self) -> str:
-        http_agent = self.__http_agent.split()
-        try:
-            version = metadata.version(__package__)
-        except metadata.PackageNotFoundError:
-            version = "0.0.0-unknown"
-
-        http_info = CanisterComponents(version, *http_agent)
-        return http_info.user_agent
+        self.__info = CanisterComponents(self.__http_agent)
 
     async def __search_canister(
         self,
@@ -64,7 +53,7 @@ class CanisterClient:
             "url": request_url,
             "params": params,
             "headers": {
-                "User-Agent": self.user_agent,
+                "User-Agent": self.__info.user_agent,
                 "content-type": "application/json"
             }
         }
