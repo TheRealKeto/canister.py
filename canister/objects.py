@@ -7,6 +7,7 @@ from typing import (
     Any,
     Dict,
     List,
+    Union,
     Optional
 )
 
@@ -35,11 +36,9 @@ class CanisterComponents:
 class APIResponse:
     status: str
     date: str
+    data: Any
     refs: Optional[Dict[str, str]] = field(default=None)
     count: Optional[int] = field(default=None)
-    data: List[Dict[str, Any]] = field(
-        default_factory=list
-    )
     error: Optional[str] = field(default=None)
 
 
@@ -98,3 +97,41 @@ class Package:
         self.repository_slug = self.repositorySlug
         self.repository_tier = self.repositoryTier
         self.tint_color = self.tintColor
+
+
+@dataclass()
+class Repository:
+    slug: str
+    aliases: List[Optional[str]]
+    isBootstrap: bool = field(repr=False)
+    is_bootstrap: bool = field(init=False)
+    tier: int
+    packageCount: int = field(repr=False)
+    package_count: int = field(init=False)
+    sections: List[str]
+    uri: str
+    suite: Optional[str]
+    component: Optional[str]
+    name: str
+    version: str
+    description: str
+    date: str
+    paymentGateway: str = field(repr=False)
+    payment_gateway: str = field(init=False)
+    sileoEndpoint: str = field(repr=False)
+    sileo_endpoint: str = field(init=False)
+    isPruned: bool = field(repr=False)
+    is_pruned: bool = field(init=False)
+    origin: Dict[str, Union[str, bool]]
+    originId: str = field(repr=False)
+    origin_id: str = field(init=False)
+    packages: str
+    refs: Dict[str, str]
+
+    def __post_init__(self) -> None:
+        self.is_bootstrap = self.isBootstrap
+        self.package_count = self.packageCount
+        self.payment_gateway = self.paymentGateway
+        self.sileo_endpoint = self.sileoEndpoint
+        self.is_pruned = self.isPruned
+        self.origin_id = self.originId

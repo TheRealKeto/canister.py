@@ -4,12 +4,14 @@
 #
 
 from .objects import (
-    Package
+    Package,
+    Repository
 )
 
 from .client import CanisterClient as Client
 
 __all__ = [
     "Client",
-    "Package"
+    "Package",
+    "Repository",
 ]

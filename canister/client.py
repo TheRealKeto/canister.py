@@ -14,6 +14,7 @@ from typing import (
 
 from .objects import (
     Package,
+    Repository,
     APIResponse,
     CanisterComponents
 )
@@ -32,7 +33,8 @@ class CanisterClient:
         # List of shorthand, supported endpoints
         self.__endpoints = {
             "package": "jailbreak/package/",
-            "search": "jailbreak/package/search"
+            "repo": "jailbreak/repository/",
+            "search": "jailbreak/package/search",
         }
         self.__info = CanisterComponents(self.__http_agent)
 
@@ -83,6 +85,10 @@ class CanisterClient:
     async def get_package(self, query: str) -> Package:
         resp = await self.__search_canister("package", query)
         return Package(**resp.data[0])
+
+    async def get_repository(self, repo_slug: str) -> Repository:
+        resp = await self.__search_canister("repo", repo_slug)
+        return Repository(**resp.data)
 
     async def close(self) -> None:
         if isinstance(self.__session, aiohttp.ClientSession):
