@@ -46,7 +46,7 @@ class APIResponse:
 @dataclass()
 class Package:
     architecture: str
-    author: str
+    author: Optional[str]
     depiction: Optional[str]
     description: str
     filename: str
@@ -83,11 +83,18 @@ class Package:
 
     # Let's deal with camelCase bullshit
     def __post_init__(self) -> None:
+        if not self.author:
+            self.author = self.maintainer
+
         self.installed_size = self.installedSize
         self.is_current = self.isCurrent
         self.is_pruned = self.isPruned
         self.native_depiction = self.nativeDepiction
         self.sileo_depiction = self.sileoDepiction
+
+        if not self.sileo_depiction:
+            self.sileo_depiction = self.native_depiction
+
         self.repository_slug = self.repositorySlug
         self.repository_tier = self.repositoryTier
         self.tint_color = self.tintColor
