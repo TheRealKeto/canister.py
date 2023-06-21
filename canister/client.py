@@ -9,12 +9,14 @@ from typing import (
     Any,
     Dict,
     List,
+    Union,
     Optional,
 )
 
 from .objects import (
     Package,
     Repository,
+    RepoReport,
     APIResponse,
     CanisterComponents
 )
@@ -35,6 +37,7 @@ class CanisterClient:
             "package": "jailbreak/package/",
             "repo": "jailbreak/repository/",
             "search": "jailbreak/package/search",
+            "safety": "jailbreak/repository/safety"
         }
         self.__info = CanisterComponents(self.__http_agent)
 
@@ -89,6 +92,18 @@ class CanisterClient:
     async def get_repository(self, repo_slug: str) -> Repository:
         resp = await self.__search_canister("repo", repo_slug)
         return Repository(**resp.data)
+
+    async def check_repository(
+        self,
+        urls: Union[str, List[str]]
+    ) -> List[RepoReport]:
+        if isinstance(urls, list):
+            urls = ",".join(urls)
+
+        resp = await self.__search_canister(
+            "safety", params={"uris": urls}
+        )
+        return [RepoReport(**report) for report in resp.data]
 
     async def close(self) -> None:
         if isinstance(self.__session, aiohttp.ClientSession):

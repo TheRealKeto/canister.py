@@ -42,6 +42,16 @@ class APIResponse:
     error: Optional[str] = field(default=None)
 
 
+@dataclass(frozen=True)
+class RepoReport:
+    uri: str
+    safe: bool
+
+    @property
+    def url(self) -> str:
+        return self.uri
+
+
 @dataclass()
 class Package:
     architecture: str

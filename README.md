@@ -11,7 +11,7 @@ The main goal of the wrapper is to completely cover the Canister API.
 Checked endpoints have been fully implemented.
 
 - [ ] [Multi package lookup]
-- [ ] [Repository safety check]
+- [x] [Repository safety check]
 - [x] [Repository lookup]
 - [x] [Package lookup]
 - [ ] [Repository packages]
