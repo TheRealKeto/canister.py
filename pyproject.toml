@@ -27,7 +27,7 @@ select = [
    "N",
    "Q"
 ]
-line-length = 65
+line-length = 75
 show-source = true
 target-version = "py38"
 per-file-ignores = { "objects.py" = ["N815"] }

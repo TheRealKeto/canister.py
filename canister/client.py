@@ -80,9 +80,7 @@ class CanisterClient:
             "limit": limit,
             "page": page
         }
-        resp = await self.__search_canister(
-            "search", params=params
-        )
+        resp = await self.__search_canister("search", params=params)
         return [Package(**package) for package in resp.data]
 
     async def get_package(self, query: str) -> Package:
@@ -100,9 +98,10 @@ class CanisterClient:
         if isinstance(urls, list):
             urls = ",".join(urls)
 
-        resp = await self.__search_canister(
-            "safety", params={"uris": urls}
-        )
+        params = {
+            "uris": urls
+        }
+        resp = await self.__search_canister("safety", params=params)
         return [RepoReport(**report) for report in resp.data]
 
     async def close(self) -> None:
