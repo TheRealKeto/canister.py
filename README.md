@@ -1,4 +1,4 @@
-# canister.py
+# cnstr
 
 An `async` wrapper for the [Canister] API, written in Python.
 
